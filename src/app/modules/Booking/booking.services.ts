@@ -13,7 +13,7 @@ const CreateBookingIntoDB = async (payload: TBooking) => {
 //Get all booking data..
 
 const GetBookingDataFromDB = async () => {
-  const results = await BookingModel.find({}).populate("facility");
+  const results = await BookingModel.find().populate("facility");
   return results;
 };
 
