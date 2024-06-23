@@ -1,71 +1,44 @@
 import { Request, Response } from "express";
 import { FacillitiesServices } from "./facilities.services";
+import catchAsync from "../../utils/catchasync";
+import sendResponseData from "../../utils/sendResponseData";
 
 //Create Facility..
-const CreateFacilies = async (req: Request, res: Response) => {
-  try {
-    const Facility = await FacillitiesServices.CreateFacilityIntoDB(req.body);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Facility added successfully",
-      data: Facility,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const CreateFacilies = catchAsync(async (req: Request, res: Response) => {
+  // console.log(req.user);
+
+  const Facility = await FacillitiesServices.CreateFacilityIntoDB(req.body);
+
+  const message = "Facility added successfully";
+  sendResponseData(res, Facility, message);
+});
 
 //Get Facility
 
-const GetAllFacilitiesData = async (req: Request, res: Response) => {
-  try {
-    const results = await FacillitiesServices.GetFacilityFromDB();
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Get All Facilites successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const GetAllFacilitiesData = catchAsync(async (req: Request, res: Response) => {
+  const results = await FacillitiesServices.GetFacilityFromDB();
+
+  const message = "Get All Facilites successfully";
+  sendResponseData(res, results, message);
+});
 
 //Update Facility..
-const UpdateFacilies = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const results = await FacillitiesServices.UpdateFacilityIntoDB(
-      id,
-      req.body
-    );
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Facility Updated successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const UpdateFacilies = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const results = await FacillitiesServices.UpdateFacilityIntoDB(id, req.body);
+
+  const message = "Facility Updated successfully";
+  sendResponseData(res, results, message);
+});
 
 //delete Facility..
-const deleteFacillity = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const results = await FacillitiesServices.deleteFacillity(id);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Facility deleted successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const deleteFacillity = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const results = await FacillitiesServices.deleteFacillity(id);
+
+  const message = "Facility deleted successfully";
+  sendResponseData(res, results, message);
+});
 
 export const FacilitiesController = {
   CreateFacilies,

@@ -26,7 +26,7 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
     },
     payableAmount: {
-      type: String,
+      type: Number,
     },
     isBooked: {
       type: String,

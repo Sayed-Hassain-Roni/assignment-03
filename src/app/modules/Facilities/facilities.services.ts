@@ -1,9 +1,11 @@
+import { UserModel } from "../Users/user.model";
 import { TFacilities } from "./facilities.interface";
 import { FacilitiesModel } from "./facilities.model";
 
 //Create Facility in DB..
 const CreateFacilityIntoDB = async (payload: TFacilities) => {
   const results = await FacilitiesModel.create(payload);
+  console.log(results);
   return results;
 };
 //Get Facility ..

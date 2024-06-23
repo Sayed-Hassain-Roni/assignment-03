@@ -8,4 +8,5 @@ export default {
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   default_password: process.env.DEFAULT_PASSWORD,
+  jwt_token_access: process.env.JWT_TOKEN_ACCESS,
 };

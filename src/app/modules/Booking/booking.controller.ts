@@ -1,55 +1,48 @@
 import { Request, Response } from "express";
 import { BookingServices } from "./booking.services";
+import catchAsync from "../../utils/catchasync";
+import sendResponseData from "../../utils/sendResponseData";
 
 //Create Facility..
-const CreateBooking = async (req: Request, res: Response) => {
-  try {
-    const booking = await BookingServices.CreateBookingIntoDB(req.body);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Booking created successfully",
-      data: booking,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const CreateBooking = catchAsync(async (req: Request, res: Response) => {
+  // console.log(req.user);
+
+  const booking = await BookingServices.CreateBookingIntoDB(req.body);
+
+  const message = "Booking created successfully";
+  sendResponseData(res, booking, message);
+});
 
 //Get Booking
 
-const GetAllbookingsData = async (req: Request, res: Response) => {
-  try {
-    const results = await BookingServices.GetBookingDataFromDB();
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Bookings retrieved successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const GetAllbookingsData = catchAsync(async (req: Request, res: Response) => {
+  const results = await BookingServices.GetBookingDataFromDB();
+
+  const message = "Bookings retrieved successfully";
+  sendResponseData(res, results, message);
+});
+//Get Booking by user
+
+const GetUserbookingsData = catchAsync(async (req: Request, res: Response) => {
+  // const user = req.body;
+  const results = await BookingServices.GetUserBookingDataFromDB();
+
+  const message = "Bookings retrieved by User successfully";
+  sendResponseData(res, results, message);
+});
 
 //delete Facility..
-const cancleBooking = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const results = await BookingServices.CancleBooking(id);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Booking cancelled successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const cancleBooking = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const results = await BookingServices.CancleBooking(id);
+
+  const message = "Booking cancelled successfully";
+  sendResponseData(res, results, message);
+});
 
 export const BookingController = {
   CreateBooking,
   GetAllbookingsData,
   cancleBooking,
+  GetUserbookingsData,
 };

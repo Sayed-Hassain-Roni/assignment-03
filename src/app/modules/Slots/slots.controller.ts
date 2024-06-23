@@ -1,35 +1,23 @@
 import { Request, Response } from "express";
 import { TimeSlotsServices } from "./slot.services";
+import catchAsync from "../../utils/catchasync";
+import sendResponseData from "../../utils/sendResponseData";
 
-const creatSlots = async (req: Request, res: Response) => {
-  try {
-    const Slots = await TimeSlotsServices.CreateTimeSlotsIntoDB(req.body);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Slots added successfully",
-      data: Slots,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const creatSlots = catchAsync(async (req: Request, res: Response) => {
+  const Slots = await TimeSlotsServices.CreateTimeSlotsIntoDB(req.body);
+
+  const message = "Slots added successfully";
+  sendResponseData(res, Slots, message);
+});
 
 //Get by date
 
-const CheackAvability = async (req: Request, res: Response) => {
-  try {
-    const results = await TimeSlotsServices.CheackavailableDate(req.query);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Availability checked successfully",
-      data: results,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const CheackAvability = catchAsync(async (req: Request, res: Response) => {
+  const results = await TimeSlotsServices.CheackavailableDate(req.query);
+
+  const message = "Availability checked successfully";
+  sendResponseData(res, results, message);
+});
 
 export const TimeSlotsController = {
   creatSlots,
