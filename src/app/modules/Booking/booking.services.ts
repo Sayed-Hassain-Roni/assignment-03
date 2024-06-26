@@ -1,15 +1,18 @@
 import exp from "constants";
 import { TBooking } from "./booking.interface";
 import { BookingModel } from "./booking.model";
-import { UserModel } from "../Users/user.model";
+import { LoginUserModel, UserModel } from "../Users/user.model";
 import jwt from "jsonwebtoken";
 import { string } from "zod";
 import { FacilitiesModel } from "../Facilities/facilities.model";
 import { TLoginUser } from "../Auth/auth.interface";
 import config from "../../config";
+import { AuthLoginServices } from "../Auth/auth.services";
+import { Request } from "express";
+import { auth } from "../../middlewares/auth";
 
 //create booking...
-const CreateBookingIntoDB = async (payload: TBooking) => {
+const CreateBookingIntoDB = async (payload: TBooking, user: string) => {
   const facility = await FacilitiesModel.findById(payload.facility);
   const FacilitiesPrice = facility?.pricePerHour as number;
   const startTime = payload.startTime;
@@ -29,12 +32,6 @@ const CreateBookingIntoDB = async (payload: TBooking) => {
   // Repleace Payableabmount..
   payload.payableAmount = payAbleAmount;
 
-  // console.log("test", idd);
-  const User = await UserModel.findOne();
-  const ID = User?._id;
-  payload.user = ID;
-  console.log(payload.user);
-
   const boooking = await BookingModel.create(payload);
 
   return boooking;
@@ -52,7 +49,6 @@ const GetBookingDataFromDB = async () => {
 
 const GetUserBookingDataFromDB = async () => {
   const results = await BookingModel.find();
-  console.log(results);
   return results;
 };
 

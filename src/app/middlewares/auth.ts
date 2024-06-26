@@ -21,7 +21,6 @@ export const auth = (...requiredRole: TUserRole[]) => {
           });
         } else {
           req.user = decoded as JwtPayload;
-
           next();
         }
       });

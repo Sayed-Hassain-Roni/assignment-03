@@ -6,8 +6,8 @@ export const BookingValidationSchema = z.object({
   date: z.string(),
   startTime: z.string(),
   endTime: z.string(),
-  user: z.instanceof(Types.ObjectId).optional(),
-  facility: z.instanceof(Types.ObjectId),
+  user: z.string().optional(),
+  facility: z.string(),
   payableAmount: z.number().optional(),
   isBooked: z.enum(["confirmed", "unconfirmed", "canceled"]).optional(),
 });

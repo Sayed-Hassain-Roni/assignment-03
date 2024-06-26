@@ -23,7 +23,7 @@ const AuthLoging = async (payload: TLoginUser) => {
   // Create token...
 
   const jwtPayload = {
-    userId: User.email,
+    userId: User,
     role: User.role,
   };
   //   console.log(jwtPayload.userId);

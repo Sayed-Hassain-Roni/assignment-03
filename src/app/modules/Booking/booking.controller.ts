@@ -2,12 +2,18 @@ import { Request, Response } from "express";
 import { BookingServices } from "./booking.services";
 import catchAsync from "../../utils/catchasync";
 import sendResponseData from "../../utils/sendResponseData";
+import { AuthLoginServices } from "../Auth/auth.services";
 
 //Create Facility..
 const CreateBooking = catchAsync(async (req: Request, res: Response) => {
-  // console.log(req.user);
+  const user = req.user;
 
-  const booking = await BookingServices.CreateBookingIntoDB(req.body);
+  req.body.user = user.userId._id;
+
+  const booking = await BookingServices.CreateBookingIntoDB(
+    req.body,
+    req.body.user
+  );
 
   const message = "Booking created successfully";
   sendResponseData(res, booking, message);
@@ -24,7 +30,6 @@ const GetAllbookingsData = catchAsync(async (req: Request, res: Response) => {
 //Get Booking by user
 
 const GetUserbookingsData = catchAsync(async (req: Request, res: Response) => {
-  // const user = req.body;
   const results = await BookingServices.GetUserBookingDataFromDB();
 
   const message = "Bookings retrieved by User successfully";
