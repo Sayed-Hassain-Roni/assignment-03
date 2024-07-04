@@ -21,3 +21,8 @@
     1.Programming Language: TypeScript
     2.Web Framework: Express.js
     3.ODM & Validation Library: Mongoose for MongoDB
+
+# For Run Project
+
+    ## For Compile -- **npm run build**
+    ## For run server -- **npm run start:dev**
