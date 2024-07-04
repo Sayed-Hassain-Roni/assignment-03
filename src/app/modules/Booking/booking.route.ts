@@ -17,7 +17,7 @@ router.get("/", auth(USER_ROLE.admin), BookingController.GetAllbookingsData);
 router.delete("/:id", auth(USER_ROLE.user), BookingController.cancleBooking);
 
 router.get(
-  "/:user",
+  "/user",
   auth(USER_ROLE.user),
   BookingController.GetUserbookingsData
 );

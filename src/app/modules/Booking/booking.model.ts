@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TBooking } from "./booking.interface";
+import { AppError } from "../../Errors/AppError";
 
 // Define the booking schema
 const bookingSchema = new Schema<TBooking>(
@@ -36,5 +37,18 @@ const bookingSchema = new Schema<TBooking>(
   },
   { timestamps: true }
 );
+
+bookingSchema.pre("save", async function (next) {
+  const isSlotsAvaiavle = await BookingModel.findOne({
+    date: this.date,
+    startTime: this.startTime,
+    endTime: this.endTime,
+  });
+
+  if (isSlotsAvaiavle) {
+    throw new AppError(404, "Sorry,Slot is not avaiable..");
+  }
+  next();
+});
 
 export const BookingModel = model<TBooking>("Booking", bookingSchema);
